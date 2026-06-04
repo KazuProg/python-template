@@ -15,7 +15,6 @@ htmlcov/
 
 # IDE / OS
 .idea/
-.vscode/
 *.swp
 .DS_Store
 
