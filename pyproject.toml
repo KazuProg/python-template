@@ -46,3 +46,5 @@ pythonVersion = "3.12"
 typeCheckingMode = "standard"
 include = ["src", "tests"]
 extraPaths = ["src"]
+venvPath = "."
+venv = ".venv"
