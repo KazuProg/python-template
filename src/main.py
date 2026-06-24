@@ -2,7 +2,8 @@
 
 
 def main() -> None:
-    print("Hello from python-template")
+    """Run the application."""
+    print("Hello from python-template")  # noqa: T201
 
 
 if __name__ == "__main__":

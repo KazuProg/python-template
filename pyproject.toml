@@ -15,7 +15,6 @@ dev = [
 
 [tool.uv]
 package = false
-default-groups = ["dev"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -23,23 +22,110 @@ pythonpath = ["src"]
 addopts = "-q --import-mode=importlib"
 
 [tool.ruff]
-target-version = "py314"
-line-length = 88
 src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # Pyflakes
-    "I",   # isort
-    "UP",  # pyupgrade
-    "B",   # flake8-bugbear
-    "SIM", # flake8-simplify
+    # ============================================================
+    # Must-have: All projects should enable these
+    # ============================================================
+    "F",    # Pyflakes: undefined names, unused imports, syntax errors
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "I",    # isort: import sorting
+    "B",    # flake8-bugbear: common bug patterns
+    "UP",   # pyupgrade: modern Python syntax for target-version
+    "N",    # pep8-naming: PEP 8 naming conventions
+    "RUF",  # Ruff-specific rules
+    "T10",  # flake8-debugger: leftover breakpoint()/pdb
+    "T20",  # flake8-print: leftover print()
+
+    # ============================================================
+    # Recommended: Low noise, broadly useful
+    # ============================================================
+    "C4",   # flake8-comprehensions: unnecessary list()/dict() wraps
+    "SIM",  # flake8-simplify: simplifiable code patterns
+    "PIE",  # flake8-pie: unnecessary operations (pass, spread, etc.)
+    "PGH",  # pygrep-hooks: bare `type: ignore`, eval() usage
+    "PERF", # Perflint: performance anti-patterns
+    "FLY",  # flynt: string concat to f-string
+    "RSE",  # flake8-raise: raise syntax improvements
+    "A",    # flake8-builtins: shadowing built-in names
+    "ERA",  # eradicate: commented-out code detection
+
+    # ============================================================
+    # Case-by-case: Enable/disable based on project needs
+    # Remove entire prefix or individual rules as needed
+    # ============================================================
+    # -- General purpose --
+    "S",    # flake8-bandit: security checks
+    "RET",  # flake8-return: return statement consistency
+    "ARG",  # flake8-unused-arguments: unused function arguments
+    "BLE",  # flake8-blind-except: overly broad exception handlers
+    "EM",   # flake8-errmsg: exception message formatting
+    "TRY",  # tryceratops: exception handling patterns
+    "ISC",  # flake8-implicit-str-concat: implicit string concatenation
+    "DTZ",  # flake8-datetimez: timezone-aware datetime
+    "G",    # flake8-logging-format: logging format strings
+    "LOG",  # flake8-logging: logging module usage
+    "PTH",  # flake8-use-pathlib: pathlib over os.path
+    "TID",  # flake8-tidy-imports: banned/relative import control
+    # -- Documentation --
+    "D",    # pydocstyle: docstring format and presence
+    # -- Type hints --
+    "TC",   # flake8-type-checking: TYPE_CHECKING block optimization
+    "FA",   # flake8-future-annotations (effective when target-version < py310)
+    "ANN",  # flake8-annotations: type annotation enforcement
+    # -- Testing (pytest) --
+    "PT",   # flake8-pytest-style: pytest conventions
+    # -- Async --
+    "ASYNC", # flake8-async: blocking operations in async code
+
+    # ============================================================
+    # Optional: Strict / opinionated — enable if team agrees
+    # ============================================================
+    "FBT",  # flake8-boolean-trap: boolean positional arguments
+    "C90",  # mccabe: function complexity threshold
+    "SLF",  # flake8-self: private member access from outside
+    "PL",   # Pylint: comprehensive checks (select individual rules)
+
+    # ============================================================
+    # Domain-specific: Remove if not applicable
+    # No-op when the framework is not used
+    # ============================================================
+    "PD",   # pandas-vet: pandas best practices
+    "NPY",  # NumPy-specific: deprecated functions/type aliases
+    "AIR",  # Airflow
+    "DJ",   # flake8-django
+    "FAST", # FastAPI
+
 ]
 
-[tool.ruff.format]
-quote-style = "double"
+ignore = [
+    "E501",   # Line too long — handled by formatter
+    "E731",   # Allow lambda assignment
+    # -- SIM --
+    "SIM108", # Ternary operator — often less readable
+    # -- ISC --
+    "ISC001", # Conflicts with ruff formatter
+    # -- TRY --
+    "TRY003", # Long exception messages — too noisy
+    # -- D --
+    "D203",   # Conflicts with D211 (no blank line before class docstring)
+    "D213",   # Conflicts with D212 (summary on first line)
+    # -- PL --
+    "PLR0913", # Too many arguments — threshold is subjective
+    "PLR2004", # Magic value comparison — too noisy
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",   # assert is expected in tests
+    "ARG",    # Unused arguments (fixtures, parametrize)
+    "ANN",    # Type annotations not required in tests
+    "D",      # Docstrings not required in tests
+    "SLF",    # Private member access is common in tests
+]
 
 [tool.pyright]
 pythonVersion = "3.14"
