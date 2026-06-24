@@ -15,7 +15,6 @@ dev = [
 
 [tool.uv]
 package = false
-default-groups = ["dev"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -23,8 +22,6 @@ pythonpath = ["src"]
 addopts = "-q --import-mode=importlib"
 
 [tool.ruff]
-target-version = "py314"
-line-length = 88
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -129,9 +126,6 @@ ignore = [
     "D",      # Docstrings not required in tests
     "SLF",    # Private member access is common in tests
 ]
-
-[tool.ruff.format]
-quote-style = "double"
 
 [tool.pyright]
 pythonVersion = "3.14"
